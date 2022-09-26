@@ -28,7 +28,14 @@ func GetUsersController(c echo.Context) error {
 
 // Get user by id
 func GetUserController(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"messages": "url parameter harus angka",
+		})
+	}
+
 	var user []User
 	user = append(user, users[id-1])
 	return c.JSON(http.StatusOK, map[string]interface{}{
@@ -39,7 +46,13 @@ func GetUserController(c echo.Context) error {
 
 // delete user by id
 func DeleteUserController(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"messages": "url parameter harus angka",
+		})
+	}
 
 	users = append(users[:id-1], users[id:]...)
 	return c.JSON(http.StatusOK, map[string]interface{}{
@@ -50,7 +63,13 @@ func DeleteUserController(c echo.Context) error {
 
 // update user by id
 func UpdateUserController(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"messages": "url parameter harus angka",
+		})
+	}
 
 	user := User{}
 	c.Bind(&user)
